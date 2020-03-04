@@ -1,5 +1,6 @@
 import Tools.PDF as PDF
 import PyPDF2 as PyPDF2
+import Tools.Email as email
 
 def get_all_range_of_pdf(path):
     lecture = open(path, 'rb')
@@ -23,23 +24,6 @@ def get_range_to_cut(path):
             print('The values provided are not numbers.')
     return [limitMin, limitMax]
 
-
-def ask(message):
-    x = False
-    answer = False
-    while not x:
-        rd = input(message)
-        if rd == '1' or rd.lower() == 'yes':
-            answer = True
-            x = True
-        elif rd == '2' or rd.lower() == 'no':
-            answer = False
-            x = True
-        else:
-            print('WARN: Invalid option.')
-    return answer
-
-
 class PDF_Modifier:
 
     def cutPDF(self):
@@ -56,7 +40,7 @@ class PDF_Modifier:
             full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            self.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file)
             print('PDF saved locally as: ' + full_path_new_file)
         elif not pdf1.check_file:
             print('The file is not a PDF.')
@@ -83,7 +67,7 @@ class PDF_Modifier:
             full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            self.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file)
             print('PDF saved locally as: ' + full_path_new_file)
         else:
             print('WARN: One or both files are not PDF.')
@@ -110,7 +94,7 @@ class PDF_Modifier:
             full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            self.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file)
             print('PDF saved locally as: ' + full_path_new_file)
         else:
             print('WARN: One or both files are not PDF.')
@@ -125,20 +109,13 @@ class PDF_Modifier:
             full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            self.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file)
             print('PDF saved locally as: ' + full_path_new_file)
         else:
             print('WARN: One or both files are not PDF.')
 
-    def sendEmail(self, attachment):
-        print('New PDF sent by email.')
-        checker = ask("""
-Send PDF by email:
-    1: YES
-    2: NO
-        """)
-        if checker:
-            print('Email sent.')
-        else:
-            """Email not sent"""
+
+
+
+
 
