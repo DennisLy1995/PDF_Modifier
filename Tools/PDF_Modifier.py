@@ -1,6 +1,11 @@
 import Tools.PDF as PDF
 import PyPDF2 as PyPDF2
 
+def get_all_range_of_pdf(path):
+    lecture = open(path, 'rb')
+    read = PyPDF2.PdfFileReader(lecture)
+    limitMax = read.getNumPages()
+    return [1, limitMax]
 
 def get_range_to_cut(path):
     checker = False
@@ -38,8 +43,7 @@ def ask(message):
 class PDF_Modifier:
 
     def cutPDF(self):
-        path = input('Full path of the PDF:')
-        pdf1 = PDF.PDF(path)
+        pdf1 = PDF.PDF(input('Full path of the PDF:'))
         if pdf1.check_file:
             page_range = get_range_to_cut(pdf1.full_path)
             pdfFileObj = open(pdf1.full_path, 'rb')
@@ -58,8 +62,31 @@ class PDF_Modifier:
             print('The file is not a PDF.')
 
     def joinPDF(self):
-        path1 = input('Provide the full path of the first PDF:')
-        path2 = input('Provide the full path of the second PDF:')
+        pdf1 = PDF.PDF(input('Provide the full path of the first PDF:'))
+        pdf2 = PDF.PDF(input('Provide the full path of the second PDF:'))
+        if pdf1.check_file and pdf2.check_file:
+            page_range1 = get_all_range_of_pdf(pdf1.full_path)
+            page_range2 = get_all_range_of_pdf(pdf2.full_path)
+            pdfFileObj1 = open(pdf1.full_path, 'rb')
+            pdfFileObj2 = open(pdf2.full_path, 'rb')
+            pdfReader1 = PyPDF2.PdfFileReader(pdfFileObj1)
+            pdfReader2 = PyPDF2.PdfFileReader(pdfFileObj2)
+            pdfWriter = PyPDF2.PdfFileWriter()
+            x = (int(page_range1[0]) - 1)
+            while x <= (int(page_range1[1]) - 1):
+                pdfWriter.addPage(pdfReader1.getPage(int(x)))
+                x += 1
+            x = (int(page_range2[0]) - 1)
+            while x <= (int(page_range2[1]) - 1):
+                pdfWriter.addPage(pdfReader2.getPage(int(x)))
+                x += 1
+            full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
+            with open(full_path_new_file, 'wb') as outfile:
+                pdfWriter.write(outfile)
+            self.sendEmail(full_path_new_file)
+            print('PDF saved locally as: ' + full_path_new_file)
+        else:
+            print('WARN: One or both files are not PDF.')
 
     def copyPDF(self):
         path = input('Paste the full path of the PDF you would like to copy:')
