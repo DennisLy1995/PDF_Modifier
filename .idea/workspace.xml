@@ -18,6 +18,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Dennis Granados Ly" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1YaSk8JaGXs5Qe7awlKqX1M9WzK" />
@@ -86,10 +91,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Console messages modified." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1583337959244">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1583351171889">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1583337959244" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1583351171889" />
     <state width="1278" height="440" key="DebuggerActiveHint" timestamp="1583350519728">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
