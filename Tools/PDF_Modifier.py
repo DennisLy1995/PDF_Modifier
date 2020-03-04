@@ -2,13 +2,46 @@ import Tools.PDF as PDF
 import PyPDF2 as PyPDF2
 
 
+def get_range_to_cut(path):
+    checker = False
+    while not checker:
+        limitMin = input("Page to start the PDF:")
+        limitMax = input("Page to finish the PDF:")
+        lecture = open(path, 'rb')
+        read = PyPDF2.PdfFileReader(lecture)
+        try:
+            if read.getNumPages() >= int(limitMax) and int(limitMin) >= 1 and int(limitMax) >= int(limitMin):
+                checker = True
+            else:
+                print('NOTE: Values not admited.')
+        except:
+            print('The values provided are not numbers.')
+    return [limitMin, limitMax]
+
+
+def ask(message):
+    x = False
+    answer = False
+    while not x:
+        rd = input(message)
+        if rd == '1' or rd.lower() == 'yes':
+            answer = True
+            x = True
+        elif rd == '2' or rd.lower() == 'no':
+            answer = False
+            x = True
+        else:
+            print('WARN: Invalid option.')
+    return answer
+
+
 class PDF_Modifier:
 
     def cutPDF(self):
         path = input('Full path of the PDF:')
         pdf1 = PDF.PDF(path)
         if pdf1.check_file:
-            page_range = self.get_range_to_cut(pdf1.full_path)
+            page_range = get_range_to_cut(pdf1.full_path)
             pdfFileObj = open(pdf1.full_path, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
             pdfWriter = PyPDF2.PdfFileWriter()
@@ -31,25 +64,9 @@ class PDF_Modifier:
     def copyPDF(self):
         path = input('Paste the full path of the PDF you would like to copy:')
 
-    def get_range_to_cut(self, path):
-        checker = False
-        while not checker:
-            limitMin = input("Page to start the PDF:")
-            limitMax = input("Page to finish the PDF:")
-            lecture = open(path, 'rb')
-            read = PyPDF2.PdfFileReader(lecture)
-            try:
-                if read.getNumPages() >= int(limitMax) and int(limitMin) >= 1 and int(limitMax) >= int(limitMin):
-                    checker = True
-                else:
-                    print('NOTE: Values not admited.')
-            except:
-                print('The values provided are not numbers.')
-        return [limitMin, limitMax]
-
     def sendEmail(self, attachment):
         print('New PDF sent by email.')
-        checker = self.ask("""
+        checker = ask("""
 Send PDF by email:
     1: YES
     2: NO
@@ -57,19 +74,5 @@ Send PDF by email:
         if checker:
             print('Email sent.')
         else:
-            print('Email not sent.')
+            """Email not sent"""
 
-    def ask(self, message):
-        x = False
-        answer = False
-        while not x:
-            rd = input(message)
-            if rd == '1':
-                answer = True
-                x = True
-            elif rd == '2':
-                answer = False
-                x = True
-            else:
-                print('WARN: Invalid option.')
-        return answer
