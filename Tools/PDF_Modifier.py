@@ -2,11 +2,13 @@ import Tools.PDF as PDF
 import PyPDF2 as PyPDF2
 import Tools.Email as email
 
+
 def get_all_range_of_pdf(path):
     lecture = open(path, 'rb')
     read = PyPDF2.PdfFileReader(lecture)
     limitMax = read.getNumPages()
     return [1, limitMax]
+
 
 def get_range_to_cut(path):
     checker = False
@@ -24,6 +26,7 @@ def get_range_to_cut(path):
             print('The values provided are not numbers.')
     return [limitMin, limitMax]
 
+
 class PDF_Modifier:
 
     def cutPDF(self):
@@ -37,11 +40,12 @@ class PDF_Modifier:
             while x <= (int(page_range[1]) - 1):
                 pdfWriter.addPage(pdfReader.getPage(int(x)))
                 x += 1
-            full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
+            file_name = input('Provide a name for the file:') + ".pdf"
+            full_path_new_file = pdf1.path + "\\" + file_name
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            email.sendEmail(full_path_new_file)
-            print('PDF saved locally as: ' + full_path_new_file)
+            email.sendEmail(full_path_new_file, file_name)
+            print('INFO: PDF saved locally as: ' + full_path_new_file)
         elif not pdf1.check_file:
             print('The file is not a PDF.')
 
@@ -64,10 +68,11 @@ class PDF_Modifier:
             while x <= (int(page_range2[1]) - 1):
                 pdfWriter.addPage(pdfReader2.getPage(int(x)))
                 x += 1
-            full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
+            file_name = input('Provide a name for the file:') + ".pdf"
+            full_path_new_file = pdf1.path + "\\" + file_name
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            email.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file, file_name)
             print('PDF saved locally as: ' + full_path_new_file)
         else:
             print('WARN: One or both files are not PDF.')
@@ -91,31 +96,27 @@ class PDF_Modifier:
             while x <= (int(page_range2[1]) - 1):
                 pdfWriter.addPage(pdfReader2.getPage(int(x)))
                 x += 1
-            full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
+            file_name = input('Provide a name for the file:') + ".pdf"
+            full_path_new_file = pdf1.path + "\\" + file_name
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            email.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file, pdf1.name)
             print('PDF saved locally as: ' + full_path_new_file)
         else:
             print('WARN: One or both files are not PDF.')
 
     def copyPDF(self):
         pdf1 = PDF.PDF(input('Paste the full path of the PDF you would like to copy:'))
-        if pdf1.check_file :
+        if pdf1.check_file:
             pdfFileObj1 = open(pdf1.full_path, 'rb')
             pdfReader1 = PyPDF2.PdfFileReader(pdfFileObj1)
             pdfWriter = PyPDF2.PdfFileWriter()
             pdfWriter.cloneReaderDocumentRoot(pdfReader1)
-            full_path_new_file = pdf1.path + "\\" + input('Provide a name for the file:') + ".pdf"
+            file_name = input('Provide a name for the file:') + ".pdf"
+            full_path_new_file = pdf1.path + "\\" + file_name
             with open(full_path_new_file, 'wb') as outfile:
                 pdfWriter.write(outfile)
-            email.sendEmail(full_path_new_file)
+            email.sendEmail(full_path_new_file, file_name)
             print('PDF saved locally as: ' + full_path_new_file)
         else:
             print('WARN: One or both files are not PDF.')
-
-
-
-
-
-
