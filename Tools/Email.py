@@ -1,6 +1,6 @@
 import re
+import smtplib as smtp
 from Tools.Utils import ask
-
 
 def validate_single_email(email):
     pattern = '[^@]+@[^@]+\.[^@]+'
@@ -18,7 +18,8 @@ Send PDF by email:
     2: NO
         """)
     if checker:
-        if validate_single_email(input('To:')):
+        email_account = input('To:')
+        if validate_single_email(email_account):
             print('Email account is valid.')
         else:
             print('email account is not valid.')
